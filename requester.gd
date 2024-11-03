@@ -18,10 +18,14 @@ const url := "https://api.openai.com/v1/images/generations"
 var prompt = """
 Generate a level tile for a 2D sidescroller game with a %s theme. 
 This wall tile will be repeated several times to build the level. 
-Generate only one single tile. Fill the entire space with the image. 
+Generate only one single tile. 
+Fill the entire space with the image. 
 Keep it simple.
 DO NOT add any additional detail. Use this prompt AS IS. 
-""".replace("\n", " ").replace("  ", " ").strip_edges()
+"""\
+.replace("\n", " ")\
+.replace("  ", " ").replace("  ", " ")\
+.strip_edges()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

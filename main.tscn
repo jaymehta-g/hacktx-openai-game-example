@@ -1,15 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcjpe73joacdr"]
+[gd_scene load_steps=7 format=3 uid="uid://bcjpe73joacdr"]
 
 [ext_resource type="Script" path="res://requester.gd" id="1_w5etr"]
 [ext_resource type="Texture2D" uid="uid://cysa8274h1ulu" path="res://placeholdtile.png" id="2_b2wan"]
+[ext_resource type="PackedScene" uid="uid://dajaqhm83pal" path="res://player.tscn" id="3_utb7f"]
+[ext_resource type="Script" path="res://player.gd" id="4_0c672"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7al8o"]
 texture = ExtResource("2_b2wan")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 
 [sub_resource type="TileSet" id="TileSet_tofb1"]
 tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_7al8o")
 
 [node name="Node2D" type="Node2D"]
@@ -46,3 +52,7 @@ offset_right = 933.0
 offset_bottom = 336.0
 theme_override_font_sizes/font_size = 64
 text = "Waiting for response..."
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_utb7f")]
+position = Vector2(241, 274)
+script = ExtResource("4_0c672")
