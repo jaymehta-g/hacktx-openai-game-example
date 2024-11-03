@@ -16,16 +16,20 @@ const tilewid := 64
 const url := "https://api.openai.com/v1/images/generations"
 
 var prompt = """
-Generate a level tile for a 2D sidescroller game with a %s theme. 
+Generate a level tile that might appear in a 2D platformer game with a %s theme. 
 This wall tile will be repeated several times to build the level. 
-Generate only one single tile. 
+Generate only one single tile.
+DO NOT generate an entire scene.
 Fill the entire space with the image. 
 Keep it simple.
-DO NOT add any additional detail. Use this prompt AS IS. 
+DO NOT add any additional detail to this prompt.
+Use this prompt AS IS. 
 """\
 .replace("\n", " ")\
 .replace("  ", " ").replace("  ", " ")\
 .strip_edges()
+
+var generating_state := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -56,6 +60,8 @@ func _process(delta):
 	pass
 
 func request():
+	if generating_state: return
+	generating_state = true
 	waiting_label.visible = true
 	print_debug("start")
 	var theme := text_edit.text.strip_edges()
@@ -70,6 +76,9 @@ func request():
 		size = "256x256",
 	}
 	http_request.request(url, headers, HTTPClient.METHOD_POST, JSON.stringify(opts))
+	await http_request.request_completed
+	await image_request.request_completed
+	generating_state = false
 
 func _on_request_completed(result, response_code, headers, body):
 	print(result)
